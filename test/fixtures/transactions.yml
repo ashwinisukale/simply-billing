@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_name: MyString
+  mobile_number: MyString
+  product: one
+  price: 1.5
+  quantity: 1
+  total_amount: 1.5
+
+two:
+  customer_name: MyString
+  mobile_number: MyString
+  product: two
+  price: 1.5
+  quantity: 1
+  total_amount: 1.5

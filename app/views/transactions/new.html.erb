@@ -1,0 +1,104 @@
+<div class="page-header">
+  <%= link_to transactions_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <h1>New Bill</h1>
+</div>
+
+<%= form_for(@transaction, html: { role: "form" }) do |f| %>
+<div class="container">
+    <div class="row">
+    	<div class="col-xs-12">
+    		<div class="col-xs-6">
+       		<label class="control-label" for="transactions[customer_name]">Customer Name :</label>
+       		<input type="text" class="form-control" name="transactions[customer_name]" required/>
+       </div>
+       <div class="col-xs-6">
+       		<label class="control-label" for="transactions[phone]">Mobile Number :</label>
+       		<input type="text" class="form-control" name="transactions[phone]" pattern="^[6-9]\d{9}$" required/>
+       </div>       
+      </div>
+    </div>
+</div>
+<hr>
+<div>
+	<a href="" class="btn btn-primary" id="add_product">Add Product</a>
+</div>
+<table class="table table-striped table-hover" id="bill_products">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total amount</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  	<tr>
+  		<td><input type="text" name="transactions[list][0][product]" class="product" list="products" required/></td>
+  		<td><input type="text" name="transactions[list][0][description]" class="description" required/></td>
+	    <td><input class="price" name="transactions[list][0][price]" type="text" onkeypress="validate_number(event)" required/></td>
+	    <td><input class="quantity" name="transactions[list][0][quantity]" min="1" type="number" onkeypress="validate_integer(event)" required/></td>
+	    <td><input class="sub_total" name="sub_total"/></td>
+	    <td><a class="glyphicon glyphicon-remove remove_product"></a></td>
+  	</tr>
+  </tbody>
+  <tfoot>
+    <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td><input type="text" class="grand_total" value="" name="" disabled/></td>
+    <td></td>
+    </tr>
+</tfoot>
+</table>
+<datalist id="products">
+	<% @products.each do |product| %>
+  <option data-desc="<%= product.description%>" data-sellprice="<%= product.sell_price%>" value="<%= product.name%>"><%= product.name %></option>
+  <% end %>
+</datalist>
+
+<div class="form-group">
+    <div class="col-sm-10">
+      <%= f.submit "Create Bill", {class: "btn btn-primary"} %>
+    </div>
+  </div>
+<% end %>
+
+
+
+<script type="text/javascript">
+	function fixIds(elem, cntr) {
+		cntr++;	
+    $(elem).find("input").each(function() {
+    	console.log(this.name);
+    	this.name = this.name.replace(/\d+/,cntr);
+    })
+	}
+	$( "#add_product" ).click(function() {
+		var row = $("#bill_products tbody tr:last").clone(true).find('input').val('').end();
+		var initialCounter = $("#bill_products tbody tr:last").find('input').attr("name").match(/\d+/)[0];
+		var cloneCntr = parseInt(initialCounter);
+		fixIds(row, cloneCntr);
+		row.insertAfter("#bill_products tbody tr:last");
+    return false;
+	});
+
+	// $( "#add_product" ).click(function() {
+	// 	$("#bill_products tbody tr:last").clone(true).find('input').val('').end().insertAfter("#bill_products tbody tr:last");
+ //    return false;
+	// });
+
+	$(".product").on('input', function () {
+    var value = $(this).val();
+    var price = $('#products [value="' + value + '"]').data('sellprice');
+    var description = $('#products [value="' + value + '"]').data('desc');
+    $(this).closest('tr').find("[class=price]").val(price);
+    $(this).closest('tr').find("[class=description]").val(description);
+	});
+</script>
