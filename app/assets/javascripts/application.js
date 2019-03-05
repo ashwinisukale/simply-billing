@@ -18,13 +18,15 @@
 //= require_tree .
 
 $(document).ready(function(){
-    $('.quantity,.price').on('change keyup', function(){
+    $('.quantity, .price').on('keyup', function(){      
     		calculate($(this));
     });
     
     $('.remove_product').on('click', function(){
+      if($("#bill_products tbody tr").length > 1){
     		$(this).closest('tr').remove();
     		calculate($(this));
+      }
     });
  });
 
@@ -47,38 +49,3 @@ function calculate(self) {
     $('.grand_total').val(grandTotal.toFixed(2));
   }
 }
-
-function validate_number(evt) {
-    var theEvent = evt || window.event;
-
-    // Handle paste
-    if (theEvent.type === 'paste') {
-        key = event.clipboardData.getData('text/plain');
-    } else {
-    // Handle key press
-        var key = theEvent.keyCode || theEvent.which;
-        key = String.fromCharCode(key);
-    }
-    var regex = /[0-9]|\./;
-    if( !regex.test(key) ) {
-      theEvent.returnValue = false;
-      if(theEvent.preventDefault) theEvent.preventDefault();
-    }
-  }
-  function validate_integer(evt) {
-    var theEvent = evt || window.event;
-
-    // Handle paste
-    if (theEvent.type === 'paste') {
-        key = event.clipboardData.getData('text/plain');
-    } else {
-    // Handle key press
-        var key = theEvent.keyCode || theEvent.which;
-        key = String.fromCharCode(key);
-    }
-    var regex = /[0-9]/;
-    if( !regex.test(key) ) {
-      theEvent.returnValue = false;
-      if(theEvent.preventDefault) theEvent.preventDefault();
-    }
-  }

@@ -41,8 +41,8 @@
   	<tr>
   		<td><input type="text" name="transactions[list][0][product]" class="product" list="products" required/></td>
   		<td><input type="text" name="transactions[list][0][description]" class="description" required/></td>
-	    <td><input class="price" name="transactions[list][0][price]" type="text" onkeypress="validate_number(event)" required/></td>
-	    <td><input class="quantity" name="transactions[list][0][quantity]" min="1" type="number" onkeypress="validate_integer(event)" required/></td>
+	    <td><input class="price" name="transactions[list][0][price]" type="number" required/></td>
+	    <td><input class="quantity" name="transactions[list][0][quantity]" value="1" min="1" type="number" required/></td>
 	    <td><input class="sub_total" name="sub_total"/></td>
 	    <td><a class="glyphicon glyphicon-remove remove_product"></a></td>
   	</tr>
@@ -52,6 +52,7 @@
     <td></td>
     <td></td>
     <td></td>
+    <td><strong>Total Bill:</strong></td>
     <td><input type="text" class="grand_total" value="" name="" disabled/></td>
     <td></td>
     </tr>
@@ -76,7 +77,6 @@
 	function fixIds(elem, cntr) {
 		cntr++;	
     $(elem).find("input").each(function() {
-    	console.log(this.name);
     	this.name = this.name.replace(/\d+/,cntr);
     })
 	}
@@ -85,6 +85,7 @@
 		var initialCounter = $("#bill_products tbody tr:last").find('input').attr("name").match(/\d+/)[0];
 		var cloneCntr = parseInt(initialCounter);
 		fixIds(row, cloneCntr);
+    $(row).find('.quantity').prop('value',1);
 		row.insertAfter("#bill_products tbody tr:last");
     return false;
 	});
