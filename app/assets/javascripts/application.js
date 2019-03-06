@@ -16,6 +16,7 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+//= require_self
 
 $(document).ready(function(){
     $('.quantity, .price').on('keyup', function(){      
